@@ -10,21 +10,21 @@ int main()
     {
         int n, m;
         cin >> n >> m;
-        int a[n], b[m], a0[6] = {0}, b0[6] = {0};
-        for (int i = 0; i < n; i++)
+        int a[n], b[m], a1[6] = {0}, b1[6] = {0};
+        for (auto &i : a)
         {
-            cin >> a[i];
-            if (a[i] < 6)
-                a0[a[i]]++;
+            cin >> i;
+            if (i < 6)
+                a1[i]++;
         }
-        for (int i = 0; i < m; i++)
+        for (auto &i : b)
         {
-            cin >> b[i];
-            if (b[i] < 6)
-                b0[b[i]]++;
+            cin >> i;
+            if (i < 6)
+                b1[i]++;
         }
-        int dem = 0;
-        sort(b, b + n);
+        sort(b, b + m);
+        long long dem = 0;
         for (int i = 0; i < n; i++)
         {
             if (a[i] == 0)
@@ -33,24 +33,19 @@ int main()
             }
             else if (a[i] == 1)
             {
-                dem += b0[0];
+                dem += b1[0];
             }
             else
             {
-                int it = upper_bound(b, b + n, a[i]) - b;
-                dem += m - it;
-                dem += b0[0] + b0[1];
+                int k = upper_bound(b, b + m, a[i]) - b;
+                dem += m - k;
+                dem += b1[0] + b1[1];
                 if (a[i] == 2)
-                {
-                    dem = dem - b0[3] - b0[4];
-                }
+                    dem = dem - b1[3] - b1[4];
                 if (a[i] == 3)
-                {
-                    dem += b0[2];
-                }
+                    dem += b1[2];
             }
         }
         cout << dem << endl;
     }
-    return 0;
 }
