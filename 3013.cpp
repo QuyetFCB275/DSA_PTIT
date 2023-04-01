@@ -2,32 +2,53 @@
 
 using namespace std;
 
-#define FOR(i, a, b) for(int i=a; i<=b; i++)
-#define For(i, a, b) for(int i=a; i<b; i++)
-typedef long long ll;
+vector<pair<char, int>> vt;
+map<char, int> mp;
+string s;
+int d;
+char kq[100005];
 
-int main ()
+bool cmp(pair<char, int> p1, pair<char, int> p2)
+{
+    return p1.second > p2.second;
+}
+
+bool check()
+{
+    for (int i = 0; i < vt.size(); i++)
+    {
+        for (int j = 0; j < vt[i].second; j++)
+        {
+            if (i + j * d >= s.size())
+                return false;
+            kq[i + j * d] = vt[i].first;
+        }
+    }
+    return true;
+}
+
+int main()
 {
     int t;
     cin >> t;
     while (t--)
     {
-        int d;
         cin >> d;
-        string s;
         cin >> s;
-        map<char, int> mp;
-        for (int i=0; i<s.size(); i++)
+        vt.clear();
+        mp.clear();
+        for (auto i : s)
         {
-            mp[s[i]]++;
+            mp[i]++;
         }
-        int max = 0;
         for (auto x : mp)
-            if (max < x.second)
-                max = x.second;
-        int k = s.size() - max;
-        if (k >= (max - 1) * (d - 1)) cout << 1 << endl;
-        else cout << -1 << endl;
+        {
+            vt.push_back(x);
+        }
+        sort(vt.begin(), vt.end(), cmp);
+        if (check())
+            cout << 1 << endl;
+        else
+            cout << -1 << endl;
     }
-        
 }
