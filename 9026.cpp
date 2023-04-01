@@ -8,7 +8,7 @@ vector<int> e;
 bool vs[1000];
 
 void nhap();
-void DFS(int);
+void BFS(int);
 
 int main()
 {
@@ -22,7 +22,7 @@ int main()
         e.clear();
         e.resize(1005);
         nhap();
-        DFS(s);
+        BFS(s);
         if (!vs[c])
         {
             cout << -1;
@@ -56,15 +56,27 @@ void nhap()
     }
 }
 
-void DFS(int u)
+void BFS(int u)
 {
+    queue<int> qe;
+    qe.push(u);
+    e[u] = 0;
     vs[u] = true;
-    for (auto x : ke[u])
+
+    while (!qe.empty())
     {
-        if (!vs[x])
+        int x = qe.front();
+        // vs[x] = true;
+        qe.pop();
+
+        for (auto i : ke[x])
         {
-            e[x] = u;
-            DFS(x);
+            if (!vs[i])
+            {
+                qe.push(i);
+                e[i] = x;
+                vs[i] = true;
+            }
         }
     }
 }

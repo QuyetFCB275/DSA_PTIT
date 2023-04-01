@@ -1,17 +1,12 @@
+// 1 2 3 8 10 30 33 34 80
+// 9 5 4 2 3  7  8  1  6
 #include <bits/stdc++.h>
 
 using namespace std;
 
-bool cmp(pair<int, int> p1, pair<int, int> p2)
-{
-    if (p1.first == p2.first)
-        return p1.second > p2.second;
-    return p1.first < p2.first;
-}
-
 int main()
 {
-    int t;
+    int t = 1;
     cin >> t;
     while (t--)
     {
@@ -20,28 +15,23 @@ int main()
         pair<int, int> a[n];
         for (int i = 0; i < n; i++)
         {
-            int x;
-            cin >> x;
-            a[i].first = x;
+            cin >> a[i].first;
             a[i].second = i;
         }
-        sort(a, a + n, cmp);
-        for (auto x : a)
-            cout << x.first << " " << x.second << endl;
-        cout << endl;
-        int maxx = -1, cnt = -1, index = 0;
+        sort(a, a + n);
+        int ans = -1, k = a[0].first, Min = a[0].second;
         for (int i = 1; i < n; i++)
         {
-            if (a[i].second > a[i - 1].second)
+            if (a[i].first > k)
             {
-                cnt = a[i].second - a[index].second;
+                ans = max(ans, a[i].second - Min);
             }
-            else
+            if (Min > a[i].second)
             {
-                index = i;
+                Min = a[i].second;
+                k = a[i].first;
             }
-            maxx = max(maxx, cnt);
         }
-        // cout << maxx << endl;
+        cout << ans << endl;
     }
 }
