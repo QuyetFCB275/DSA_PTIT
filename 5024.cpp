@@ -1,9 +1,14 @@
+// 0 1 1 1 1 1
+// 1 0 0 0 0 0
+// 1 0 0 0 0 0
+// 1 0 0 0 0 0
+// 1 0 0 0 0 0
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
-int M = 1e9 + 7;
-int f[100005];
+int f[105][105];
 
 int main()
 {
@@ -11,28 +16,30 @@ int main()
     cin >> t;
     while (t--)
     {
-        memset(f, 0, sizeof(f));
-        f[0] = 1;
-        int n, k;
-        cin >> n >> k;
-        int a[n];
-        for (auto &i : a)
-            cin >> i;
-        // sort(a, a + n);
-        for (int i = 1; i <= k; i++)
+        string a, b;
+        cin >> a >> b;
+        int n1 = a.size(), n2 = b.size();
+
+        f[0][0] = 0;
+        for (int i = 1; i <= n1; i++)
+            f[i][0] = i;
+        for (int i = 1; i <= n2; i++)
+            f[0][i] = i;
+
+        for (int i = 1; i <= n1; i++)
         {
-            for (int j = 0; j < n; j++)
+            for (int j = 1; j <= n2; j++)
             {
-                if (a[j] <= i)
+                if (a[i - 1] == b[j - 1])
                 {
-                    f[i] = (f[i] + f[i - a[j]]) % M;
+                    f[i][j] = f[i - 1][j - 1];
                 }
-                // else
-                // {
-                //     break;
-                // }
+                else
+                {
+                    f[i][j] = min(f[i - 1][j], min(f[i][j - 1], f[i-1][j-1])) + 1;
+                }
             }
         }
-        cout << f[k] << endl;
+        cout << f[n1][n2] << endl;
     }
 }
